@@ -8,9 +8,8 @@
 class InetAddress
 {
 public:
-    InetAddress(const std::string& ip
-    , const unsigned char port
-    , unsigned short int sin_family=AF_INET);
+    InetAddress(const std::string &ip, const uint16_t port, unsigned short int sin_family = AF_INET);
+    InetAddress();
     struct sockaddr_in _addr;
     socklen_t _len;
 };

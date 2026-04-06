@@ -1,5 +1,5 @@
 #include "InetAddress.h"
-InetAddress::InetAddress(const std::string &ip, const unsigned char port, unsigned short int sin_family)
+InetAddress::InetAddress(const std::string &ip, const uint16_t port, unsigned short int sin_family)
 {
     // 初始化结构体
     bzero(&_addr, sizeof(_addr));
@@ -8,4 +8,9 @@ InetAddress::InetAddress(const std::string &ip, const unsigned char port, unsign
     _addr.sin_addr.s_addr = inet_addr(ip.c_str());
     _addr.sin_port = htons(port);
     _len = sizeof(_addr);
+}
+
+InetAddress::InetAddress() :_len(sizeof(_addr))
+{
+    bzero(&_addr, sizeof(_addr));
 }

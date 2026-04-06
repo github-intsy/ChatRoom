@@ -1,5 +1,4 @@
 #include "Socket.h"
-
 // int epfd = epoll_create(0);//创建一个epoll文件描述符并返回，失败是-1
 // errif(epfd==-1, "server epoll create error");
 /*
@@ -16,9 +15,13 @@ Socket::Socket()
     _sockfd = socket(AF_INET, SOCK_STREAM, 0);
     errif(_sockfd == -1, "socket create error");
 }
+Socket::Socket(int fd)
+    : _sockfd(fd)
+{
+}
 void Socket::bind(InetAddress *serv_addr)
 {
-    errif(::bind(_sockfd, (sockaddr*)&(serv_addr->_addr), serv_addr->_len) == -1, "socket bind error");
+    errif(::bind(_sockfd, (sockaddr *)&(serv_addr->_addr), serv_addr->_len) == -1, "socket bind error");
 }
 
 void Socket::listen()
@@ -28,12 +31,17 @@ void Socket::listen()
 
 int Socket::accept(InetAddress *clnt_addr)
 {
-    int clnt_sockfd = ::accept(_sockfd, (sockaddr*)&(clnt_addr->_addr), &(clnt_addr->_len));
-    errif(clnt_sockfd==-1,"socket accept new client error");
+    int clnt_sockfd = ::accept(_sockfd, (sockaddr *)&(clnt_addr->_addr), &(clnt_addr->_len));
+    errif(clnt_sockfd == -1, "socket accept new client error");
     return clnt_sockfd;
 }
 
 int Socket::getfd()
 {
     return _sockfd;
+}
+
+Socket::~Socket()
+{
+    close(_sockfd);
 }
