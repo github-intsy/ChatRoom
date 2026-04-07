@@ -3,7 +3,7 @@
 #include <cstring>
 #include <unistd.h>
 #include <cstdio>
-#include "util.h"
+#include "src/util.h"
 int main()
 {
     int sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);

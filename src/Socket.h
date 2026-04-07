@@ -16,6 +16,7 @@ public:
     void listen();
     int accept(InetAddress *clnt_addr);
     int getfd();
+    void setnonblocking();
     ~Socket();
 
 private:

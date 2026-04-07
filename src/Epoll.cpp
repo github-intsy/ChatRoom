@@ -1,6 +1,12 @@
 #include "Epoll.h"
+#include <cstdio>
+#include <cstdlib>
+#include <sys/epoll.h>
+#include <cstring>
+#include <unistd.h>
+#include "util.h"
 Epoll::Epoll()
-    : _epfd(-1)
+    : _epfd(-1), _events(nullptr)
 {
     // 创建一个用于在内核存放数据的句柄
     _epfd = epoll_create1(0);
@@ -30,9 +36,9 @@ void Epoll::addFd(int sockfd, uint32_t events)
 
 std::vector<Channel *> Epoll::poll(int timeout)
 {
+    std::vector<Channel *> ret;
     int nfds = epoll_wait(_epfd, _events, MAX_EVENTS, timeout);
     errif(nfds == -1, "epoll wait error");
-    std::vector<Channel *> ret;
     for (int i = 0; i < nfds; ++i)
     {
         Channel *ch = (Channel *)_events[i].data.ptr;

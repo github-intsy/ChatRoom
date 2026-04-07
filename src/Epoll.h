@@ -1,12 +1,6 @@
 #pragma once
 #include <vector>
 #include "Channel.h"
-#include <cstdio>
-#include <cstdlib>
-#include <sys/epoll.h>
-#include <cstring>
-#include <unistd.h>
-#include "util.h"
 class Channel;
 class Epoll
 {

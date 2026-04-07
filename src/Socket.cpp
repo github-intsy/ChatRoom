@@ -1,4 +1,5 @@
 #include "Socket.h"
+#include <fcntl.h>
 // int epfd = epoll_create(0);//创建一个epoll文件描述符并返回，失败是-1
 // errif(epfd==-1, "server epoll create error");
 /*
@@ -18,6 +19,7 @@ Socket::Socket()
 Socket::Socket(int fd)
     : _sockfd(fd)
 {
+    errif(_sockfd == -1, "socket create error");
 }
 void Socket::bind(InetAddress *serv_addr)
 {
@@ -43,5 +45,14 @@ int Socket::getfd()
 
 Socket::~Socket()
 {
-    close(_sockfd);
+    if (_sockfd != -1)
+    {
+        close(_sockfd);
+        _sockfd = -1;
+    }
+}
+
+void Socket::setnonblocking()
+{
+    fcntl(_sockfd, F_SETFL, fcntl(_sockfd, F_GETFL) | O_NONBLOCK);
 }
