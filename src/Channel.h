@@ -8,6 +8,8 @@ class Channel
 {
 public:
     Channel(EventLoop *loop, int fd);
+    ~Channel();
+    
     void enableReading();
     int getFd();
     uint32_t getEvents();

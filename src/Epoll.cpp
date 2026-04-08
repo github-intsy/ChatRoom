@@ -25,14 +25,14 @@ Epoll::~Epoll()
     delete[] _events;
 }
 
-void Epoll::addFd(int sockfd, uint32_t events)
-{
-    struct epoll_event ev; // 设置样板参数
-    ev.data.fd = sockfd;
-    ev.events = events;
+// void Epoll::addFd(int sockfd, uint32_t events)
+// {
+//     struct epoll_event ev; // 设置样板参数
+//     ev.data.fd = sockfd;
+//     ev.events = events;
 
-    epoll_ctl(_epfd, EPOLL_CTL_ADD, sockfd, &ev); // 将客户端socket fd添加到epoll
-}
+//     epoll_ctl(_epfd, EPOLL_CTL_ADD, sockfd, &ev); // 将客户端socket fd添加到epoll
+// }
 
 std::vector<Channel *> Epoll::poll(int timeout)
 {
