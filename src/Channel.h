@@ -18,6 +18,7 @@ public:
     void setRevents(const uint32_t events);
     void setCallback(std::function<void()>);
     void handleEvent();
+    void useET();
 
 private:
     EventLoop *_loop;  // 每个socket都会被分配到一个epoll类
@@ -26,4 +27,5 @@ private:
     uint32_t _revents; // 表示epoll返回该channel时fd正在发生的事件
     bool _inEpoll;     // 当前fd是否在epoll红黑树中
     std::function<void()> _callback;
+    bool _useThreadPool;
 };

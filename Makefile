@@ -1,7 +1,15 @@
+src=$(wildcard src/*.cpp)
 server:
-	g++ src/Connection.cpp src/Acceptor.cpp src/util.cpp server.cpp src/Socket.cpp src/Buffer.cpp \
-	src/Epoll.cpp src/InetAddress.cpp src/Channel.cpp src/EventLoop.cpp src/Server.cpp -o server  && \
-	g++ src/util.cpp client.cpp -o client
+	g++ -std=c++11 -pthread -g \
+	$(src) \
+	server.cpp \
+	-o server
+client:
+	g++ src/util.cpp src/Buffer.cpp src/Socket.cpp src/InetAddress.cpp client.cpp -o client
+
+test:
+	g++ src/util.cpp src/Buffer.cpp src/Socket.cpp src/InetAddress.cpp src/ThreadPool.cpp \
+	-pthread \
+	test.cpp -o test
 clean:
-	rm -rf server &&\
-	rm -rf client
+	rm server && rm client && rm test

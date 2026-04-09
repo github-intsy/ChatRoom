@@ -13,4 +13,5 @@ public:
     ssize_t size();
     const char* c_str();
     void clear();
+    void setBuf(const char *);
 };

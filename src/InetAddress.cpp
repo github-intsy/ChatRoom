@@ -14,3 +14,8 @@ InetAddress::InetAddress() :_len(sizeof(_addr))
 {
     bzero(&_addr, sizeof(_addr));
 }
+
+sockaddr_in InetAddress::getAddr()
+{
+    return _addr;
+}

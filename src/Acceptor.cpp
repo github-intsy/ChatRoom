@@ -11,7 +11,7 @@ Acceptor::Acceptor(EventLoop *loop)
     InetAddress *addr = new InetAddress("0.0.0.0", 8888);
     _sock->bind(addr); // 绑定ip和端口
     _sock->listen();   // 启动socket监听
-    _sock->setnonblocking();
+    // _sock->setnonblocking();
 
     _acceptChannel = new Channel(_loop, _sock->getfd());
     std::function<void()> cb = std::bind(&Acceptor::acceptConnection, this);

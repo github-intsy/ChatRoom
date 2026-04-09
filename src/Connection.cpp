@@ -4,17 +4,18 @@
 #include "EventLoop.h"
 #include "Buffer.h"
 #include <functional>
-
+#include <cstring>
 #define READ_BUF 1024
 
 Connection::Connection(EventLoop *loop, Socket *sock)
     : _loop(loop), _sock(sock), _channel(nullptr), _readBuffer(nullptr)
 {
-    _channel = new Channel(_loop, _sock->getfd());//获取连接的channel
+    _channel = new Channel(_loop, _sock->getfd()); // 获取连接的channel
     _readBuffer = new Buffer();
     std::function<void()> cb = std::bind(&Connection::echo, this, _sock->getfd());
-    _channel->setCallback(cb);//绑定回调函数
-    _channel->enableReading();//打开读事件监听
+    _channel->setCallback(cb); // 绑定回调函数
+    _channel->enableReading(); // 打开读事件监听
+    _channel->useET();
 }
 
 Connection::~Connection()
@@ -24,7 +25,7 @@ Connection::~Connection()
     delete _readBuffer;
 }
 
-//非阻塞io需要不断读取，一次事件读取完毕
+// 非阻塞io需要不断读取，一次事件读取完毕
 void Connection::echo(int sockfd)
 {
     char buf[READ_BUF]; // 定义读取缓冲区
@@ -38,7 +39,7 @@ void Connection::echo(int sockfd)
         {
             // printf("message from client fd %d: %s\n", sockfd, buf);
             // write(sockfd, buf, sizeof(buf)); // 将获取到的数据写回给客户端
-            _readBuffer->append(buf, read_bytes);//获取数据到缓冲区
+            _readBuffer->append(buf, read_bytes); // 获取数据到缓冲区
         }
         else if (read_bytes == 0) // read返回0，表示客户端关闭连接，EOF
         {

@@ -5,7 +5,6 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include "util.h"
-#include "InetAddress.h"
 class InetAddress;
 class Socket
 {
@@ -18,6 +17,7 @@ public:
     int getfd();
     void setnonblocking();
     ~Socket();
+    void connect(InetAddress *addr);
 
 private:
     int _sockfd;
