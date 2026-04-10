@@ -1,0 +1,16 @@
+/home/gsy/OnlineChatRoom/build/CMakeFiles/format.dir
+/home/gsy/OnlineChatRoom/build/CMakeFiles/check-format.dir
+/home/gsy/OnlineChatRoom/build/CMakeFiles/cpplint.dir
+/home/gsy/OnlineChatRoom/build/CMakeFiles/clang-tidy.dir
+/home/gsy/OnlineChatRoom/build/CMakeFiles/edit_cache.dir
+/home/gsy/OnlineChatRoom/build/CMakeFiles/rebuild_cache.dir
+/home/gsy/OnlineChatRoom/build/src/CMakeFiles/pine_shared.dir
+/home/gsy/OnlineChatRoom/build/src/CMakeFiles/edit_cache.dir
+/home/gsy/OnlineChatRoom/build/src/CMakeFiles/rebuild_cache.dir
+/home/gsy/OnlineChatRoom/build/test/CMakeFiles/build-tests.dir
+/home/gsy/OnlineChatRoom/build/test/CMakeFiles/check-tests.dir
+/home/gsy/OnlineChatRoom/build/test/CMakeFiles/multiple_client.dir
+/home/gsy/OnlineChatRoom/build/test/CMakeFiles/server.dir
+/home/gsy/OnlineChatRoom/build/test/CMakeFiles/single_client.dir
+/home/gsy/OnlineChatRoom/build/test/CMakeFiles/edit_cache.dir
+/home/gsy/OnlineChatRoom/build/test/CMakeFiles/rebuild_cache.dir
