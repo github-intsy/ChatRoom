@@ -96,6 +96,7 @@ single_client_EXTERNAL_OBJECTS =
 bin/single_client: test/CMakeFiles/single_client.dir/single_client.cpp.o
 bin/single_client: test/CMakeFiles/single_client.dir/build.make
 bin/single_client: lib/libpine_shared.so
+bin/single_client: lib/libchat_handler.so
 bin/single_client: test/CMakeFiles/single_client.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/single_client"
 	cd /home/gsy/OnlineChatRoom/build/test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/single_client.dir/link.txt --verbose=$(VERBOSE)

@@ -11,6 +11,9 @@ public:
 
   void handleEvent();
   void enableReading();
+  void enableWriting();
+  void disableWriting();
+
 
   int getFd();
   uint32_t getEvents();
@@ -20,6 +23,7 @@ public:
   void setInEpoll(bool flag = true);
   void setRevents(const uint32_t events);
   void setReadCallback(std::function<void()>);
+  void setWriteCallback(std::function<void()>);
 
   void useET();
 

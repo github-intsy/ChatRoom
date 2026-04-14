@@ -63,16 +63,19 @@ CMAKE_BINARY_DIR = /home/gsy/OnlineChatRoom/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: chat_handler/all
 all: src/all
 all: test/all
 .PHONY : all
 
 # The main recursive "codegen" target.
+codegen: chat_handler/codegen
 codegen: src/codegen
 codegen: test/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
+preinstall: chat_handler/preinstall
 preinstall: src/preinstall
 preinstall: test/preinstall
 .PHONY : preinstall
@@ -82,9 +85,29 @@ clean: CMakeFiles/format.dir/clean
 clean: CMakeFiles/check-format.dir/clean
 clean: CMakeFiles/cpplint.dir/clean
 clean: CMakeFiles/clang-tidy.dir/clean
+clean: chat_handler/clean
 clean: src/clean
 clean: test/clean
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory chat_handler
+
+# Recursive "all" directory target.
+chat_handler/all: chat_handler/CMakeFiles/chat_handler.dir/all
+.PHONY : chat_handler/all
+
+# Recursive "codegen" directory target.
+chat_handler/codegen: chat_handler/CMakeFiles/chat_handler.dir/codegen
+.PHONY : chat_handler/codegen
+
+# Recursive "preinstall" directory target.
+chat_handler/preinstall:
+.PHONY : chat_handler/preinstall
+
+# Recursive "clean" directory target.
+chat_handler/clean: chat_handler/CMakeFiles/chat_handler.dir/clean
+.PHONY : chat_handler/clean
 
 #=============================================================================
 # Directory level rules for directory src
@@ -257,18 +280,50 @@ CMakeFiles/clang-tidy.dir/clean:
 .PHONY : CMakeFiles/clang-tidy.dir/clean
 
 #=============================================================================
+# Target rules for target chat_handler/CMakeFiles/chat_handler.dir
+
+# All Build rule for target.
+chat_handler/CMakeFiles/chat_handler.dir/all:
+	$(MAKE) $(MAKESILENT) -f chat_handler/CMakeFiles/chat_handler.dir/build.make chat_handler/CMakeFiles/chat_handler.dir/depend
+	$(MAKE) $(MAKESILENT) -f chat_handler/CMakeFiles/chat_handler.dir/build.make chat_handler/CMakeFiles/chat_handler.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target chat_handler"
+.PHONY : chat_handler/CMakeFiles/chat_handler.dir/all
+
+# Build rule for subdir invocation for target.
+chat_handler/CMakeFiles/chat_handler.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chat_handler/CMakeFiles/chat_handler.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 0
+.PHONY : chat_handler/CMakeFiles/chat_handler.dir/rule
+
+# Convenience name for target.
+chat_handler: chat_handler/CMakeFiles/chat_handler.dir/rule
+.PHONY : chat_handler
+
+# codegen rule for target.
+chat_handler/CMakeFiles/chat_handler.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f chat_handler/CMakeFiles/chat_handler.dir/build.make chat_handler/CMakeFiles/chat_handler.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Finished codegen for target chat_handler"
+.PHONY : chat_handler/CMakeFiles/chat_handler.dir/codegen
+
+# clean rule for target.
+chat_handler/CMakeFiles/chat_handler.dir/clean:
+	$(MAKE) $(MAKESILENT) -f chat_handler/CMakeFiles/chat_handler.dir/build.make chat_handler/CMakeFiles/chat_handler.dir/clean
+.PHONY : chat_handler/CMakeFiles/chat_handler.dir/clean
+
+#=============================================================================
 # Target rules for target src/CMakeFiles/pine_shared.dir
 
 # All Build rule for target.
-src/CMakeFiles/pine_shared.dir/all:
+src/CMakeFiles/pine_shared.dir/all: chat_handler/CMakeFiles/chat_handler.dir/all
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13,14 "Built target pine_shared"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=9,10,11,12,13,14,15,16,17,18,19,20 "Built target pine_shared"
 .PHONY : src/CMakeFiles/pine_shared.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/pine_shared.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 12
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/pine_shared.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/pine_shared.dir/rule
@@ -280,7 +335,7 @@ pine_shared: src/CMakeFiles/pine_shared.dir/rule
 # codegen rule for target.
 src/CMakeFiles/pine_shared.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13,14 "Finished codegen for target pine_shared"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=9,10,11,12,13,14,15,16,17,18,19,20 "Finished codegen for target pine_shared"
 .PHONY : src/CMakeFiles/pine_shared.dir/codegen
 
 # clean rule for target.
@@ -302,7 +357,7 @@ test/CMakeFiles/build-tests.dir/all: test/CMakeFiles/single_client.dir/all
 
 # Build rule for subdir invocation for target.
 test/CMakeFiles/build-tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/build-tests.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 0
 .PHONY : test/CMakeFiles/build-tests.dir/rule
@@ -338,7 +393,7 @@ test/CMakeFiles/check-tests.dir/all: test/CMakeFiles/single_client.dir/all
 
 # Build rule for subdir invocation for target.
 test/CMakeFiles/check-tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/check-tests.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 0
 .PHONY : test/CMakeFiles/check-tests.dir/rule
@@ -364,15 +419,16 @@ test/CMakeFiles/check-tests.dir/clean:
 # Target rules for target test/CMakeFiles/multiple_client.dir
 
 # All Build rule for target.
+test/CMakeFiles/multiple_client.dir/all: chat_handler/CMakeFiles/chat_handler.dir/all
 test/CMakeFiles/multiple_client.dir/all: src/CMakeFiles/pine_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/multiple_client.dir/build.make test/CMakeFiles/multiple_client.dir/depend
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/multiple_client.dir/build.make test/CMakeFiles/multiple_client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=1,2 "Built target multiple_client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=7,8 "Built target multiple_client"
 .PHONY : test/CMakeFiles/multiple_client.dir/all
 
 # Build rule for subdir invocation for target.
 test/CMakeFiles/multiple_client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 20
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/multiple_client.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 0
 .PHONY : test/CMakeFiles/multiple_client.dir/rule
@@ -384,7 +440,7 @@ multiple_client: test/CMakeFiles/multiple_client.dir/rule
 # codegen rule for target.
 test/CMakeFiles/multiple_client.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/multiple_client.dir/build.make test/CMakeFiles/multiple_client.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=1,2 "Finished codegen for target multiple_client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=7,8 "Finished codegen for target multiple_client"
 .PHONY : test/CMakeFiles/multiple_client.dir/codegen
 
 # clean rule for target.
@@ -396,15 +452,16 @@ test/CMakeFiles/multiple_client.dir/clean:
 # Target rules for target test/CMakeFiles/server.dir
 
 # All Build rule for target.
+test/CMakeFiles/server.dir/all: chat_handler/CMakeFiles/chat_handler.dir/all
 test/CMakeFiles/server.dir/all: src/CMakeFiles/pine_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/server.dir/build.make test/CMakeFiles/server.dir/depend
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/server.dir/build.make test/CMakeFiles/server.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=15,16 "Built target server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=21,22 "Built target server"
 .PHONY : test/CMakeFiles/server.dir/all
 
 # Build rule for subdir invocation for target.
 test/CMakeFiles/server.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 20
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/server.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 0
 .PHONY : test/CMakeFiles/server.dir/rule
@@ -416,7 +473,7 @@ server: test/CMakeFiles/server.dir/rule
 # codegen rule for target.
 test/CMakeFiles/server.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/server.dir/build.make test/CMakeFiles/server.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=15,16 "Finished codegen for target server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=21,22 "Finished codegen for target server"
 .PHONY : test/CMakeFiles/server.dir/codegen
 
 # clean rule for target.
@@ -428,15 +485,16 @@ test/CMakeFiles/server.dir/clean:
 # Target rules for target test/CMakeFiles/single_client.dir
 
 # All Build rule for target.
+test/CMakeFiles/single_client.dir/all: chat_handler/CMakeFiles/chat_handler.dir/all
 test/CMakeFiles/single_client.dir/all: src/CMakeFiles/pine_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/single_client.dir/build.make test/CMakeFiles/single_client.dir/depend
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/single_client.dir/build.make test/CMakeFiles/single_client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=17,18 "Built target single_client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=23,24 "Built target single_client"
 .PHONY : test/CMakeFiles/single_client.dir/all
 
 # Build rule for subdir invocation for target.
 test/CMakeFiles/single_client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 20
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/single_client.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/gsy/OnlineChatRoom/build/CMakeFiles 0
 .PHONY : test/CMakeFiles/single_client.dir/rule
@@ -448,7 +506,7 @@ single_client: test/CMakeFiles/single_client.dir/rule
 # codegen rule for target.
 test/CMakeFiles/single_client.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/single_client.dir/build.make test/CMakeFiles/single_client.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=17,18 "Finished codegen for target single_client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=23,24 "Finished codegen for target single_client"
 .PHONY : test/CMakeFiles/single_client.dir/codegen
 
 # clean rule for target.

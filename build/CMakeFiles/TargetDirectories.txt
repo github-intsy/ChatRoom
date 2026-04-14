@@ -4,6 +4,9 @@
 /home/gsy/OnlineChatRoom/build/CMakeFiles/clang-tidy.dir
 /home/gsy/OnlineChatRoom/build/CMakeFiles/edit_cache.dir
 /home/gsy/OnlineChatRoom/build/CMakeFiles/rebuild_cache.dir
+/home/gsy/OnlineChatRoom/build/chat_handler/CMakeFiles/chat_handler.dir
+/home/gsy/OnlineChatRoom/build/chat_handler/CMakeFiles/edit_cache.dir
+/home/gsy/OnlineChatRoom/build/chat_handler/CMakeFiles/rebuild_cache.dir
 /home/gsy/OnlineChatRoom/build/src/CMakeFiles/pine_shared.dir
 /home/gsy/OnlineChatRoom/build/src/CMakeFiles/edit_cache.dir
 /home/gsy/OnlineChatRoom/build/src/CMakeFiles/rebuild_cache.dir

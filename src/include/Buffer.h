@@ -13,6 +13,9 @@ public:
   ssize_t size();
   const char *c_str();
   void clear();
-  void setBuf(const char *);
+  void setBuf(const char *, size_t size);
+  void eraseFront(size_t len);
   void getline();
+  bool empty();
+  std::string getBuffer();
 };

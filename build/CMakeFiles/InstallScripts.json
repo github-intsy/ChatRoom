@@ -2,6 +2,7 @@
 	"InstallScripts" : 
 	[
 		"/home/gsy/OnlineChatRoom/build/cmake_install.cmake",
+		"/home/gsy/OnlineChatRoom/build/chat_handler/cmake_install.cmake",
 		"/home/gsy/OnlineChatRoom/build/src/cmake_install.cmake",
 		"/home/gsy/OnlineChatRoom/build/test/cmake_install.cmake"
 	],

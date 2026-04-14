@@ -255,6 +255,7 @@ lib/libpine_shared.so: src/CMakeFiles/pine_shared.dir/Socket.cpp.o
 lib/libpine_shared.so: src/CMakeFiles/pine_shared.dir/ThreadPool.cpp.o
 lib/libpine_shared.so: src/CMakeFiles/pine_shared.dir/util.cpp.o
 lib/libpine_shared.so: src/CMakeFiles/pine_shared.dir/build.make
+lib/libpine_shared.so: lib/libchat_handler.so
 lib/libpine_shared.so: src/CMakeFiles/pine_shared.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX shared library ../lib/libpine_shared.so"
 	cd /home/gsy/OnlineChatRoom/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/pine_shared.dir/link.txt --verbose=$(VERBOSE)

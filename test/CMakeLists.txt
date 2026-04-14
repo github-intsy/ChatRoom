@@ -19,7 +19,7 @@ foreach (pine_test_source ${PINE_TEST_SOURCES})
     add_dependencies(build-tests ${pine_test_name})
     add_dependencies(check-tests ${pine_test_name})
 
-    target_link_libraries(${pine_test_name} pine_shared)
+    target_link_libraries(${pine_test_name} pine_shared chat_handler)
 
     # Set test target properties and dependencies.
     set_target_properties(${pine_test_name}

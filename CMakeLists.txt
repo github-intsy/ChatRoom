@@ -98,6 +98,7 @@ set(PINE_SRC_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/include)
 set(PINE_TEST_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/test/include)
 include_directories(${PINE_SRC_INCLUDE_DIR} ${PINE_TEST_INCLUDE_DIR})
 
+add_subdirectory(chat_handler)
 add_subdirectory(src)
 add_subdirectory(test)
 ######################################################################################################################
@@ -163,3 +164,9 @@ add_custom_target(clang-tidy
         -p ${CMAKE_BINARY_DIR}                                            # using cmake's generated compile commands
         )
 # add_dependencies(check-clang-tidy pine_shared)                    # needs gtest headers, compile_commands.json
+
+target_include_directories(chat_handler PUBLIC ${PROJECT_SOURCE_DIR}/chat_handler/include)
+target_include_directories(pine_shared PUBLIC ${PROJECT_SOURCE_DIR}/src/include)
+target_include_directories(chat_handler PUBLIC
+    ${PROJECT_SOURCE_DIR}/3rd/json
+)

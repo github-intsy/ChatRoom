@@ -169,6 +169,19 @@ clang-tidy/fast:
 .PHONY : clang-tidy/fast
 
 #=============================================================================
+# Target rules for targets named chat_handler
+
+# Build rule for target.
+chat_handler: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chat_handler
+.PHONY : chat_handler
+
+# fast build rule for target.
+chat_handler/fast:
+	$(MAKE) $(MAKESILENT) -f chat_handler/CMakeFiles/chat_handler.dir/build.make chat_handler/CMakeFiles/chat_handler.dir/build
+.PHONY : chat_handler/fast
+
+#=============================================================================
 # Target rules for targets named pine_shared
 
 # Build rule for target.
@@ -260,6 +273,7 @@ help:
 	@echo "... clang-tidy"
 	@echo "... cpplint"
 	@echo "... format"
+	@echo "... chat_handler"
 	@echo "... multiple_client"
 	@echo "... pine_shared"
 	@echo "... server"
