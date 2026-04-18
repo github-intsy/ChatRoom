@@ -71,7 +71,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : " -fPIC -Wall -Wextra -std=c++17 -pthread -Wno-unused-parameter -Wno-attributes -g -O0 -ggdb -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls -std=gnu++17 -fPIC"
+					"fragment" : " -fPIC -Wall -Wextra -std=c++17 -pthread -Wno-unused-parameter -Wno-attributes -std=gnu++17 -fPIC"
 				}
 			],
 			"defines" : 
@@ -118,7 +118,8 @@
 				1,
 				2,
 				3,
-				4
+				4,
+				5
 			]
 		}
 	],
@@ -176,7 +177,8 @@
 				1,
 				2,
 				3,
-				4
+				4,
+				5
 			]
 		}
 	],
@@ -186,6 +188,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "chat_handler/ChatAccountHandler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "chat_handler/ChatMessageHandler.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

@@ -1,83 +1,85 @@
 #include "ClientHandler.h"
-#include "json.hpp"
 #include "ChatAccountHandler.h"
+#include "ChatMessageHandler.h"
 #include "Connection.h"
 #include "protocol.h"
-#include <iostream>
-#include <arpa/inet.h>
+
 ClientHandler::ClientHandler()
-    : _logging(false), _accountHandler(nullptr)
 {
-    _accountHandler = new AccountHandler(_userConnections);
+    _accountHandler = new AccountHandler();
+    _messageHandler = new MessageHandler();
 }
 
 ClientHandler::~ClientHandler()
 {
-    if (_accountHandler != nullptr)
-    {
-        delete _accountHandler;
-        _accountHandler = nullptr;
-    }
+    delete _accountHandler;
+    delete _messageHandler;
 }
 
-std::string ClientHandler::ProcessClientMessage(int clnt_sock, const std::string &clnt_message,
-                                                std::unordered_map<int, const Connection *> &userConnection,
-                                                const Connection *currentConnection)
+std::string ClientHandler::handleRequest(const std::string &request,
+                                         Connection *connection,
+                                         std::unordered_map<int, Connection *> *userConnections)
 {
-    if (clnt_message.size() < 4)
-    {
-        printf("数据长度不足，等待更多数据\n");
-        return "";
-    }
-    // Qt QDataStream默认BigENdian，取出4字节长度
-    uint32_t len = 0;
-    std::memcpy(&len, clnt_message.data(), 4);
+    using json_rpc_protocol::cmd_type;
 
-    len = ntohl(len); // 网络序列转化成本地序
-
-    if (clnt_message.size() < 4 + len)
-    {
-        printf("收到部分消息,等待更多数据");
-        return "";
-    }
-    std::string json_str = clnt_message.substr(4, len);
     try
     {
-        auto j = nlohmann::json::parse(json_str);
-        json_rpc_protocol::cmd_type cmd =
-            static_cast<json_rpc_protocol::cmd_type>(j.value("cmd", 0));
-        std::string ret;
+        nlohmann::json req = nlohmann::json::parse(request);
+        int cmd = req.value("cmd", 0);
+        nlohmann::json params = req.value("params", nlohmann::json::object());
+
+        int userId = connection ? connection->getUserId() : 0;
+
         switch (cmd)
         {
-        case json_rpc_protocol::cmd_type::CMD_REGISTER_REQ:
-            ret = _accountHandler->handleRegister(j["params"]);
-            break;
-        case json_rpc_protocol::cmd_type::CMD_LOGIN_REQ:
-            ret = _accountHandler->handleLogin(j["params"], userConnection, currentConnection);
-            break;
-        case json_rpc_protocol::cmd_type::CMD_RESET_PW_REQ:
-            ret = _accountHandler->handleResetPassword(j["params"]);
-            break;
-        default:
-            nlohmann::json response;
-            response["cmd"] = json_rpc_protocol::cmd_type::STATUS_UNKNOWN_CMD;
-            response["status"] = json_rpc_protocol::cmd_type::STATUS_UNKNOWN_CMD;
-            response["message"] = "未知的错误cmd";
-            break;
+        case static_cast<int>(cmd_type::CMD_LOGIN_REQ):
+        {
+            int loginUserId = 0;
+            return _accountHandler->handleLogin(params, userConnections, connection, loginUserId);
         }
-        // 返回的格式必须一致
-        uint32_t resp_len = ret.size();
-        uint32_t be_len = htonl(resp_len);
+        case static_cast<int>(cmd_type::CMD_REGISTER_REQ):
+            return _accountHandler->handleRegister(params);
 
-        std::string full_response;
-        full_response.append(reinterpret_cast<const char *>(&be_len), 4);
-        full_response.append(ret);
+        case static_cast<int>(cmd_type::CMD_UPDATE_AVATAR_REQ):
+            return _accountHandler->handleUpdateAvatar(params, userConnections, userId);
 
-        return full_response;
+        case static_cast<int>(cmd_type::CMD_CREATE_GROUP_REQ):
+            return _accountHandler->handleCreateGroup(params, userId);
+
+        case static_cast<int>(cmd_type::CMD_JOIN_GROUP_REQ):
+            return _accountHandler->handleJoinGroup(params, userId);
+
+        case static_cast<int>(cmd_type::CMD_GROUP_MANAGE_REQ):
+            return _accountHandler->handleGroupManage(params, userId);
+
+        case static_cast<int>(cmd_type::CMD_SEND_PRIVATE_MSG_REQ):
+            return _messageHandler->handleSendPrivateMessage(params, userId, userConnections);
+
+        case static_cast<int>(cmd_type::CMD_GET_PRIVATE_HISTORY_REQ):
+            return _messageHandler->handleGetPrivateHistory(params, userId);
+
+        case static_cast<int>(cmd_type::CMD_SEND_GROUP_MSG_REQ):
+            return _messageHandler->handleSendGroupMessage(params, userId, userConnections);
+
+        case static_cast<int>(cmd_type::CMD_GET_GROUP_HISTORY_REQ):
+            return _messageHandler->handleGetGroupHistory(params, userId);
+        
+        default:
+        {
+            nlohmann::json res;
+            res["cmd"] = 0;
+            res["status"] = static_cast<int>(cmd_type::STATUS_UNKNOWN_CMD);
+            res["message"] = "未知命令";
+            return res.dump();
+        }
+        }
     }
     catch (const std::exception &e)
     {
-        printf("JSON 解析失败：%s\n", e.what());
+        nlohmann::json res;
+        res["cmd"] = 0;
+        res["status"] = static_cast<int>(json_rpc_protocol::cmd_type::STATUS_FAILED);
+        res["message"] = e.what();
+        return res.dump();
     }
-    return "";
 }

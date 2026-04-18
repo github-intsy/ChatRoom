@@ -3,39 +3,43 @@
 #include "EventLoop.h"
 #include "InetAddress.h"
 #include "Socket.h"
+#include "Logger.h"
 
 Acceptor::Acceptor(EventLoop *loop)
-    : _loop(loop), _sock(nullptr), _acceptChannel(nullptr) {
-  _sock = new Socket();
-  InetAddress *addr = new InetAddress("0.0.0.0", 8888);
-  _sock->bind(addr); // 绑定ip和端口
-  _sock->listen();   // 启动socket监听
-  // _sock->setnonblocking();
+    : _loop(loop), _sock(nullptr), _acceptChannel(nullptr)
+{
+    _sock = new Socket();
+    InetAddress *addr = new InetAddress("0.0.0.0", 8888);
+    _sock->bind(addr); // 绑定ip和端口
+    _sock->listen();   // 启动socket监听
+    // _sock->setnonblocking();
 
-  _acceptChannel = new Channel(_loop, _sock->getfd());
-  std::function<void()> cb = std::bind(&Acceptor::acceptConnection, this);
-  _acceptChannel->setReadCallback(cb); // 设置回调函数，指定cb函数调用
-  _acceptChannel->enableReading();     // 更新events
-  delete addr;
+    _acceptChannel = new Channel(_loop, _sock->getfd());
+    std::function<void()> cb = std::bind(&Acceptor::acceptConnection, this);
+    _acceptChannel->setReadCallback(cb); // 设置回调函数，指定cb函数调用
+    _acceptChannel->enableReading();     // 更新events
+    delete addr;
 }
 
-Acceptor::~Acceptor() {
-  delete _sock;
-  delete _acceptChannel;
+Acceptor::~Acceptor()
+{
+    delete _sock;
+    delete _acceptChannel;
 }
 
-void Acceptor::acceptConnection() {
-  InetAddress *clnt_addr = new InetAddress();
-  Socket *clnt_sock = new Socket(_sock->accept(clnt_addr));
-  printf("new client fd %d! IP: %s Port: %d\n", clnt_sock->getfd(),
-         inet_ntoa(clnt_addr->_addr.sin_addr),
-         ntohs(clnt_addr->_addr.sin_port));
-  clnt_sock->setnonblocking();
-  // 通过Acceptor调用回调函数，将新接受的sock传递给回调函数
-  _newConnectionCallback(clnt_sock);
-  delete clnt_addr;
+void Acceptor::acceptConnection()
+{
+    InetAddress *clnt_addr = new InetAddress();
+    Socket *clnt_sock = new Socket(_sock->accept(clnt_addr));
+    std::string info = "New client fd " + std::to_string(clnt_sock->getfd()) + "! IP: " + inet_ntoa(clnt_addr->_addr.sin_addr) + ", port: " + std::to_string(clnt_addr->_addr.sin_port);
+    LOG_INFO(info);
+    clnt_sock->setnonblocking();
+    // 通过Acceptor调用回调函数，将新接受的sock传递给回调函数
+    _newConnectionCallback(clnt_sock);
+    delete clnt_addr;
 }
 
-void Acceptor::setNewConnectionCallback(std::function<void(Socket *)> cb) {
-  _newConnectionCallback = cb;
+void Acceptor::setNewConnectionCallback(std::function<void(Socket *)> cb)
+{
+    _newConnectionCallback = cb;
 }

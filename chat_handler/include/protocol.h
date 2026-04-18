@@ -1,25 +1,13 @@
 #pragma once
-#include <json.hpp>
+#include "json.hpp"
 
-/*
-status,含义,适用命令,说明（message 建议文案）
-0,成功,所有响应,操作成功
-1,通用失败,所有,兼容旧版，message 再说明原因
-2,账号已存在,注册,注册时账号重复
-3,账号不存在,登录、重置密码,账号在数据库中不存在
-4,密码错误,登录,密码不匹配
-5,数据库连接失败,所有,MySQL 连接/查询异常
-6,参数无效,所有,缺少字段、格式错误、长度不符等
-7,服务器内部错误,所有,其他未知异常（如 hash 失败等）
-8,未知命令,所有,服务端收到未定义的 cmd
-*/
 namespace json_rpc_protocol
 {
     enum class cmd_type
     {
         // 状态码
         STATUS_SUCCESS = 0,
-        STATUS_FAILED = 1, // 通用失败
+        STATUS_FAILED = 1,
         STATUS_ACCOUNT_EXISTS = 2,
         STATUS_ACCOUNT_NOT_EXISTS = 3,
         STATUS_PASSWORD_ERROR = 4,
@@ -27,16 +15,65 @@ namespace json_rpc_protocol
         STATUS_INVALID_PARAMS = 6,
         STATUS_INTERNAL_ERROR = 7,
         STATUS_UNKNOWN_CMD = 8,
+        STATUS_NOT_LOGIN = 9,
+        STATUS_NO_PERMISSION = 10,
+        STATUS_ALREADY_IN_GROUP = 11,
+        STATUS_GROUP_NOT_EXISTS = 12,
+        STATUS_GROUP_MEMBER_NOT_EXISTS = 13,
+        STATUS_GROUP_ADMIN_LIMIT = 14,
+        STATUS_USER_MUTED = 15,
+        STATUS_ALREADY_FRIEND = 16,
+        STATUS_FRIEND_REQUEST_EXISTS = 17,
+        STATUS_FRIEND_REQUEST_NOT_EXISTS = 18,
+        STATUS_TARGET_ALREADY_IN_GROUP = 19,
 
-                // 请求
-        CMD_REGISTER_REQ = 1001, // 注册请求
-        CMD_LOGIN_REQ,           // 登录请求
-        CMD_RESET_PW_REQ,        // 重置密码请求
+        // 请求
+        CMD_REGISTER_REQ = 1001,
+        CMD_LOGIN_REQ = 1002,
+        CMD_RESET_PW_REQ = 1003,
+        CMD_SEND_PRIVATE_MSG_REQ = 1004,
+        CMD_UPDATE_AVATAR_REQ = 1005,
+        CMD_GET_PRIVATE_HISTORY_REQ = 1006,
+        CMD_GET_GROUP_HISTORY_REQ = 1007,
+        CMD_CREATE_GROUP_REQ = 1008,
+        CMD_JOIN_GROUP_REQ = 1009,
+        CMD_SEND_GROUP_MSG_REQ = 1010,
+        CMD_GROUP_MANAGE_REQ = 1011,
+
+        CMD_SEARCH_USER_REQ = 1012,
+        CMD_ADD_FRIEND_REQ = 1013,
+        CMD_GET_FRIEND_REQUEST_LIST_REQ = 1014,
+        CMD_HANDLE_FRIEND_REQUEST_REQ = 1015,
+        CMD_INVITE_GROUP_MEMBER_REQ = 1016,
+        CMD_GET_GROUP_MEMBERS_REQ = 1017,
 
         // 响应
-        CMD_REGISTER_RES = 2001, // 注册响应
-        CMD_LOGIN_RES,           // 登录响应
-        CMD_RESET_PW_RES         // 重置密码响应
+        CMD_REGISTER_RES = 2001,
+        CMD_LOGIN_RES = 2002,
+        CMD_RESET_PW_RES = 2003,
+        CMD_SEND_PRIVATE_MSG_RES = 2004,
+        CMD_UPDATE_AVATAR_RES = 2005,
+        CMD_GET_PRIVATE_HISTORY_RES = 2006,
+        CMD_GET_GROUP_HISTORY_RES = 2007,
+        CMD_CREATE_GROUP_RES = 2008,
+        CMD_JOIN_GROUP_RES = 2009,
+        CMD_SEND_GROUP_MSG_RES = 2010,
+        CMD_GROUP_MANAGE_RES = 2011,
 
+        CMD_SEARCH_USER_RES = 2012,
+        CMD_ADD_FRIEND_RES = 2013,
+        CMD_GET_FRIEND_REQUEST_LIST_RES = 2014,
+        CMD_HANDLE_FRIEND_REQUEST_RES = 2015,
+        CMD_INVITE_GROUP_MEMBER_RES = 2016,
+        CMD_GET_GROUP_MEMBERS_RES = 2017,
+
+        // 通知
+        CMD_PRIVATE_MSG_NOTIFY = 3001,
+        CMD_FRIEND_STATUS_NOTIFY = 3002,
+        CMD_FRIEND_AVATAR_NOTIFY = 3003,
+        CMD_GROUP_MSG_NOTIFY = 3004,
+        CMD_GROUP_MEMBER_NOTIFY = 3005,
+        CMD_FRIEND_REQUEST_NOTIFY = 3006,
+        CMD_FRIEND_REQUEST_RESULT_NOTIFY = 3007
     };
 }

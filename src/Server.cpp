@@ -8,63 +8,100 @@
 #include <thread>
 #include "ClientHandler.h"
 #include "Logger.h"
+#include "ConnectionPool.h"
+#include "ChatAccountHandler.h"
+
 #define READ_BUF 1024
 
-// 通过构造函数绑定Channel类和server的newConnection函数
 Server::Server(EventLoop *loop) : _mainReactor(loop), _acceptor(nullptr)
 {
-	_acceptor = new Acceptor(_mainReactor); // 创建接收对象
+	_acceptor = new Acceptor(_mainReactor);
 	LOG_INFO("Server start listen new connections...");
+
 	_client = new ClientHandler();
+
 	std::function<void(Socket *)> cb =
 		std::bind(&Server::newConnection, this, std::placeholders::_1);
 	_acceptor->setNewConnectionCallback(cb);
-	int size = std::thread::
-		hardware_concurrency();		// 当前CPU核心数，也就是线程数，同时是subReactor数量
-	_thpool = new ThreadPool(size); // 新建线程池
+
+	int size = std::thread::hardware_concurrency();
+	if (size <= 0)
+		size = 4;
+
+	_thpool = new ThreadPool(size);
 	LOG_INFO("Server thread pool is start");
+
 	for (int i = 0; i < size; ++i)
 	{
-		_subReactors.push_back(new EventLoop()); // 为每个线程创建一个EventLoop
+		_subReactors.push_back(new EventLoop());
 	}
+
 	for (int i = 0; i < size; ++i)
 	{
 		std::function<void()> sub_loop =
 			std::bind(&EventLoop::loop, _subReactors[i]);
-		_thpool->add(sub_loop); // 开启所有线程的事件循环
+		_thpool->add(sub_loop);
 	}
+
 	LOG_INFO("Server event loop is enable");
 }
 
-Server::~Server() { delete _acceptor; }
+Server::~Server()
+{
+	delete _acceptor;
+}
 
-// 创建客户端连接，将客户端连接加入map
 void Server::newConnection(Socket *sock)
 {
-	uint64_t random = sock->getfd() % _subReactors.size();							  // 调度策略：全随机
-	Connection *conn = new Connection(_subReactors[random], sock, &_userConnections); // 随机给这个sock分配一个subReactor
+	uint64_t random = sock->getfd() % _subReactors.size();
+	Connection *conn = new Connection(_subReactors[random], sock, &_userConnections);
 	LOG_INFO("server accept a new connection");
-	std::function<std::string(int, const std::string &, std::unordered_map<int, const Connection *> &, const Connection *)>
-		processCallback = std::bind(&ClientHandler::ProcessClientMessage,
-									_client, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+
+	std::function<std::string(const std::string &, Connection *, std::unordered_map<int, Connection *> *)>
+		processCallback = std::bind(&ClientHandler::handleRequest,
+									_client,
+									std::placeholders::_1,
+									std::placeholders::_2,
+									std::placeholders::_3);
+
 	conn->setMessageCallback(processCallback);
-	std::function<void(Socket *)> cb = std::bind(&Server::deleteConnection, this, std::placeholders::_1);
+
+	std::function<void(Socket *)> cb =
+		std::bind(&Server::deleteConnection, this, std::placeholders::_1);
 	conn->setDeleteConnectionCallback(cb);
+
 	_connections[sock->getfd()] = conn;
 }
 
-//
 void Server::deleteConnection(Socket *sock)
 {
-	if (sock->getfd() != -1)
+	if (sock->getfd() == -1)
+		return;
+
+	auto it = _connections.find(sock->getfd());
+	if (it == _connections.end())
+		return;
+
+	Connection *conn = it->second;
+	_connections.erase(sock->getfd());
+
+	int userId = conn->getUserId();
+	if (userId > 0)
 	{
-		auto it = _connections.find(sock->getfd());
-		if (it != _connections.end())
+		auto db = ConnectionPool::getConnectionPool()->getConnection();
+		if (db)
 		{
-			Connection *conn = _connections[sock->getfd()];
-			_connections.erase(sock->getfd());
-			delete conn;
-			LOG_INFO("Server releases a connection");
+			long long msgId = 0;
+			std::string sql = "update sys_user set status = 0 where user_id = " + std::to_string(userId);
+			db->update(sql, msgId);
 		}
+
+		_userConnections.erase(userId);
+
+		AccountHandler handler(&_userConnections);
+		handler.notifyFriendOnlineStatus(userId, 0);
 	}
+
+	delete conn;
+	LOG_INFO("Server releases a connection");
 }

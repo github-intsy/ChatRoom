@@ -1,7 +1,9 @@
-#pragma
+#pragma once
 #include <string>
 #include <queue>
 #include <mutex>
+#include <cstdio>
+#include <cstdlib>
 #include <thread>
 #include <condition_variable>
 #include <fstream>
@@ -10,7 +12,7 @@
 #define LOG_DEBUG(msg) Logger::getInstance().log(Logger::DEBUG, msg)
 #define LOG_INFO(msg) Logger::getInstance().log(Logger::INFO, msg)
 #define LOG_WARN(msg) Logger::getInstance().log(Logger::WARN, msg)
-#define LOG_ERROR(msg) Logger::getInstance().log(Logger::ERROR, msg)
+#define LOG_ERROR(msg) (Logger::getInstance().log(Logger::ERROR, msg), exit(EXIT_FAILURE))
 
 class Logger
 {

@@ -3,21 +3,31 @@
 #include "Channel.h"
 #include "EventLoop.h"
 #include "Socket.h"
+#include "Logger.h"
+#include "util.h"
+
+#include <arpa/inet.h>
+#include <cerrno>
 #include <cstring>
 #include <functional>
+#include <mutex>
+#include <unistd.h>
+
 #define READ_BUF 1024
 
-Connection::Connection(EventLoop *loop, Socket *sock, std::unordered_map<int, const Connection *> *userConnections)
+Connection::Connection(EventLoop *loop, Socket *sock, std::unordered_map<int, Connection *> *userConnections)
     : _sock(sock), _loop(loop), _channel(nullptr), _sendBuffer(new Buffer()),
       _readBuffer(new Buffer()), _userConnections(userConnections)
 {
-    _channel = new Channel(_loop, _sock->getfd()); // 获取连接的channel
+    _channel = new Channel(_loop, _sock->getfd());
     std::function<void()> rcb = std::bind(&Connection::handleRead, this, _sock->getfd());
     std::function<void()> wcb = std::bind(&Connection::handlerWrite, this);
-    _channel->setReadCallback(rcb);  // 绑定回调函数
-    _channel->setWriteCallback(wcb); // 绑定写回调函数
-    _channel->enableReading();       // 打开读事件监听
+    _channel->setReadCallback(rcb);
+    _channel->setWriteCallback(wcb);
+    LOG_INFO("connection set call back function");
+    _channel->enableReading();
     _channel->useET();
+    LOG_INFO("connection enable reading and use ET mode");
 }
 
 Connection::~Connection()
@@ -28,78 +38,85 @@ Connection::~Connection()
     delete _sendBuffer;
 }
 
-// 非阻塞io需要不断读取，一次事件读取完毕
-// 处理读事件
 void Connection::handleRead(int sockfd)
 {
-    char buf[READ_BUF]; // 定义读取缓冲区
-    // 循环读取数据
+    char buf[READ_BUF];
+
     while (true)
     {
-        bzero(&buf, sizeof(buf)); // 清空缓冲区
-        // 从客户端socketfd读取书数据到缓冲区，返回已读取数据大小
+        bzero(buf, sizeof(buf));
         ssize_t read_bytes = read(sockfd, buf, sizeof(buf));
+
         if (read_bytes > 0)
         {
-            // printf("message from client fd %d: %s\n", sockfd, buf);
-            // write(sockfd, buf, sizeof(buf)); // 将获取到的数据写回给客户端
-            _readBuffer->append(buf, read_bytes); // 获取数据到缓冲区
-            printf("数据内容是%s, 大小是%d\n", _readBuffer->c_str(), read_bytes);
+            _readBuffer->append(buf, read_bytes);
+            // std::string message = "Data is: " + _readBuffer->getBuffer() +
+            //                       ", Size is: " + std::to_string(read_bytes);
+            // LOG_DEBUG(message);
         }
-        else if (read_bytes == 0) // read返回0，表示客户端关闭连接，EOF
+        else if (read_bytes == 0)
         {
-            printf("EOF, client fd %d disconnected\n", sockfd);
-            // close(sockfd); //关闭socket会自动将文件描述符从epoll树上移除
-            _loop->deleteChannel(_channel); // 先将channel从eoll上面移除
+            std::string message = "EOF, client fd " + std::to_string(sockfd) + " disconnected";
+            LOG_INFO(message);
+            _loop->deleteChannel(_channel);
             _loop->queueInloop([this]()
                                { _deleteConnectionCallback(_sock); });
             break;
         }
-        else if (read_bytes == -1 && errno == EINTR) // 客户端正常中断，继续读取
+        else if (read_bytes == -1 && errno == EINTR)
         {
-            printf("continue reading");
+            LOG_INFO("Continue reading");
             continue;
         }
-        // 非阻塞IO，这个条件表示数据全部读取完毕
         else if (read_bytes == -1 && ((errno == EAGAIN) || errno == EWOULDBLOCK))
         {
-            // errif(write(sockfd, _readBuffer->c_str(), _readBuffer->size()) == -1,
-            // "socket write error");
             if (_messageCallback)
-            { // 业务处理回调
-                printf("启动事务处理\n");
-                // 将事务处理完的结果返回给发送缓冲区，触发EPOLLOUT事件
-                printf("接受的内容是%s\n", _readBuffer->c_str());
-                std::string full_message = _readBuffer->getBuffer();
-                // std::string response = _readBuffer->getBuffer();
-                std::string response = _messageCallback(_sock->getfd(), full_message, *_userConnections, this);
-                printf("response is: %s, size is %d\n", response.c_str(), response.size());
-                if (!response.empty())
+            {
+                LOG_DEBUG("Start transaction processing");
+
+                while (true)
                 {
-                    _sendBuffer->setBuf(response.c_str(), response.size());
-                    _channel->enableWriting(); // 数据数据完成，开启写事件
-                    printf("业务处理完成，开启写事件\n");
-                }
-                else
-                {
-                    printf("等待更多事件\n");
+                    if (_readBuffer->size() < 4)
+                        break;
+
+                    uint32_t len = 0;
+                    memcpy(&len, _readBuffer->c_str(), 4);
+                    len = ntohl(len);
+
+                    if (_readBuffer->size() < static_cast<ssize_t>(4 + len))
+                        break;
+
+                    std::string onePacket(_readBuffer->c_str() + 4, len);
+                    _readBuffer->eraseFront(4 + len);
+
+                    std::string response = _messageCallback(onePacket, this, _userConnections);
+
+                    std::string info = "Response is: " + response +
+                                       ", size is " + std::to_string(response.size());
+                    LOG_DEBUG(info);
+
+                    if (!response.empty())
+                    {
+                        std::string framed = encodePacket(response);
+                        _sendBuffer->append(framed.c_str(), framed.size());
+                        _channel->enableWriting();
+                        LOG_DEBUG("Write event enabled");
+                    }
                 }
             }
             else
-            { // 没有设置业务处理回调的话使用默认处理
-                printf("启动默认处理业务\n");
+            {
+                LOG_INFO("Start default processing");
                 echo(_sock->getfd());
             }
-            _readBuffer->clear();
-            // printf("finish reading once, errno: %d\n", errno); //11
             break;
         }
         else
         {
-            printf("Connection reset by peer\n");
+            LOG_INFO("Connection reset by peer");
             _loop->deleteChannel(_channel);
             _loop->queueInloop([this]()
-                               { _deleteConnectionCallback(_sock); }); // 添加进缓删队列
+                               { _deleteConnectionCallback(_sock); });
             break;
         }
     }
@@ -107,9 +124,12 @@ void Connection::handleRead(int sockfd)
 
 void Connection::echo(int sockfd)
 {
-    printf("message from client fd %d: %s\n", sockfd, _readBuffer->c_str());
-    _sendBuffer->setBuf(_readBuffer->c_str(), _readBuffer->size());
-    _channel->enableReading(); // 统一使用handlerWrite
+    std::string info = "message from client fd " + std::to_string(sockfd) + ": " + _readBuffer->getBuffer();
+    LOG_INFO(info);
+
+    std::string framed = encodePacket(_readBuffer->getBuffer());
+    _sendBuffer->setBuf(framed.c_str(), framed.size());
+    _channel->enableWriting();
     _readBuffer->clear();
 }
 
@@ -119,10 +139,8 @@ void Connection::setDeleteConnectionCallback(std::function<void(Socket *)> cb)
 }
 
 void Connection::setMessageCallback(std::function<std::string(
-                                        int clnt_sock,
-                                        const std::string &clnt_message,
-                                        std::unordered_map<int, const Connection *> &userConnection,
-                                        const Connection *currentConnection)>
+                                        const std::string &clnt_message, Connection *currentConnection,
+                                        std::unordered_map<int, Connection *> *userConnection)>
                                         callback)
 {
     _messageCallback = callback;
@@ -130,11 +148,14 @@ void Connection::setMessageCallback(std::function<std::string(
 
 void Connection::handlerWrite()
 {
+    std::string info;
     if (_sendBuffer->empty())
     {
-        _channel->disableWriting(); // 没有数据就关闭写事件
+        LOG_DEBUG("sendBuffer is empty, close writing");
+        _channel->disableWriting();
         return;
     }
+
     while (!_sendBuffer->empty())
     {
         ssize_t bytes_write = write(_sock->getfd(),
@@ -142,18 +163,19 @@ void Connection::handlerWrite()
                                     _sendBuffer->size());
         if (bytes_write > 0)
         {
-            // 成功写了byte_write字节，从缓冲区头部删除
+            info = "write " + std::to_string(bytes_write) + " bytes";
+            LOG_DEBUG(info);
             _sendBuffer->eraseFront(bytes_write);
         }
         else if (bytes_write == -1 && (errno == EAGAIN || errno == EWOULDBLOCK))
         {
-            // 写缓冲区满，等待下次EPOLLOUT操作
-            return; // 保持enableWriting状态
+            LOG_INFO("Buffer overflow detected. Waiting for the next EPOLLOUT operation");
+            return;
         }
         else
         {
-            // 发生了真正的错误（连接断开等）
-            printf("write error, client fd %d disconnected\n", _sock->getfd());
+            info = "write error, client fd " + std::to_string(_sock->getfd()) + " disconnected";
+            LOG_WARN(info);
             _loop->deleteChannel(_channel);
             _loop->queueInloop([this]()
                                { _deleteConnectionCallback(_sock); });
@@ -161,15 +183,31 @@ void Connection::handlerWrite()
         }
     }
 
-    // 全部发送完毕
     _channel->disableWriting();
+    LOG_INFO("All responses are send");
 }
 
-/*
-    后面可以拓展一个功能
-    通过调用这个连接的函数
-    直接启动EPOLL的EPOLLOUT事件
-    将函数的参数设置为string类型
-    传递约定好的协议json格式string内容
-    将数据发送给连接的客户端
-*/
+void Connection::send(const std::string &message)
+{
+    if (message.empty())
+        return;
+
+    LOG_INFO("send message is: " + message);
+    std::unique_lock<std::mutex> lock(_sendMutex);
+
+    std::string framed = encodePacket(message);
+    _sendBuffer->append(framed.c_str(), framed.size());
+
+    if (_channel)
+        _channel->enableWriting();
+}
+
+void Connection::setUserId(int userId)
+{
+    _userId = userId;
+}
+
+int Connection::getUserId() const
+{
+    return _userId;
+}

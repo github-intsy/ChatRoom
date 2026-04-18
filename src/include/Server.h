@@ -18,7 +18,7 @@ private:
   std::vector<EventLoop *> _subReactors;                        // 负责处理事件循环
   ThreadPool *_thpool;                                          // 线程池
   ClientHandler *_client;                                       // 业务处理中间层
-  std::unordered_map<int, const Connection *> _userConnections; // 维护用户登录状态，指针为空表示离线
+  std::unordered_map<int, Connection *> _userConnections; // 维护用户登录状态，指针为空表示离线
 public:
   Server(EventLoop *);
   ~Server();

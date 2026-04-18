@@ -1,5 +1,6 @@
 #include "ConnectionPool.h"
 #include "MysqlConnection.h"
+#include "Logger.h"
 #include <cstdio>
 #include <thread>
 #include <functional>
@@ -40,7 +41,7 @@ bool ConnectionPool::loadConfigFile()
     FILE *pf = fopen("/home/gsy/OnlineChatRoom/mysql.ini", "r");
     if (pf == nullptr)
     {
-        printf("mysql.ini file is not exist!\n");
+        LOG_WARN("mysql.ini file is not exist!");
         return false;
     }
     while (!feof(pf))
@@ -74,6 +75,8 @@ bool ConnectionPool::loadConfigFile()
         else if (key == "connectionTimeOut")
             _connectionTimeout = atoi(value.c_str());
     }
+    LOG_INFO("Mysql config success");
+    fclose(pf);
     return true;
 }
 
@@ -134,7 +137,7 @@ std::shared_ptr<MysqlConnection> ConnectionPool::getConnection()
         {
             if (_connectionQue.empty())
             {
-                printf("获取空连接超时了...获取连接失败！\n");
+                LOG_WARN("The timeout occurred while trying to obtain an empty connection... The connection acquisition failed");
                 return nullptr;
             }
         }

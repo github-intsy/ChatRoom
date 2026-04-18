@@ -86,10 +86,24 @@ chat_handler/CMakeFiles/chat_handler.dir/ChatAccountHandler.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chat_handler.dir/ChatAccountHandler.cpp.s"
 	cd /home/gsy/OnlineChatRoom/build/chat_handler && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gsy/OnlineChatRoom/chat_handler/ChatAccountHandler.cpp -o CMakeFiles/chat_handler.dir/ChatAccountHandler.cpp.s
 
+chat_handler/CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.o: chat_handler/CMakeFiles/chat_handler.dir/flags.make
+chat_handler/CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.o: /home/gsy/OnlineChatRoom/chat_handler/ChatMessageHandler.cpp
+chat_handler/CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.o: chat_handler/CMakeFiles/chat_handler.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object chat_handler/CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.o"
+	cd /home/gsy/OnlineChatRoom/build/chat_handler && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT chat_handler/CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.o -MF CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.o.d -o CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.o -c /home/gsy/OnlineChatRoom/chat_handler/ChatMessageHandler.cpp
+
+chat_handler/CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.i"
+	cd /home/gsy/OnlineChatRoom/build/chat_handler && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/gsy/OnlineChatRoom/chat_handler/ChatMessageHandler.cpp > CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.i
+
+chat_handler/CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.s"
+	cd /home/gsy/OnlineChatRoom/build/chat_handler && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gsy/OnlineChatRoom/chat_handler/ChatMessageHandler.cpp -o CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.s
+
 chat_handler/CMakeFiles/chat_handler.dir/ClientHandler.cpp.o: chat_handler/CMakeFiles/chat_handler.dir/flags.make
 chat_handler/CMakeFiles/chat_handler.dir/ClientHandler.cpp.o: /home/gsy/OnlineChatRoom/chat_handler/ClientHandler.cpp
 chat_handler/CMakeFiles/chat_handler.dir/ClientHandler.cpp.o: chat_handler/CMakeFiles/chat_handler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object chat_handler/CMakeFiles/chat_handler.dir/ClientHandler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object chat_handler/CMakeFiles/chat_handler.dir/ClientHandler.cpp.o"
 	cd /home/gsy/OnlineChatRoom/build/chat_handler && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT chat_handler/CMakeFiles/chat_handler.dir/ClientHandler.cpp.o -MF CMakeFiles/chat_handler.dir/ClientHandler.cpp.o.d -o CMakeFiles/chat_handler.dir/ClientHandler.cpp.o -c /home/gsy/OnlineChatRoom/chat_handler/ClientHandler.cpp
 
 chat_handler/CMakeFiles/chat_handler.dir/ClientHandler.cpp.i: cmake_force
@@ -103,7 +117,7 @@ chat_handler/CMakeFiles/chat_handler.dir/ClientHandler.cpp.s: cmake_force
 chat_handler/CMakeFiles/chat_handler.dir/ConnectionPool.cpp.o: chat_handler/CMakeFiles/chat_handler.dir/flags.make
 chat_handler/CMakeFiles/chat_handler.dir/ConnectionPool.cpp.o: /home/gsy/OnlineChatRoom/chat_handler/ConnectionPool.cpp
 chat_handler/CMakeFiles/chat_handler.dir/ConnectionPool.cpp.o: chat_handler/CMakeFiles/chat_handler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object chat_handler/CMakeFiles/chat_handler.dir/ConnectionPool.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object chat_handler/CMakeFiles/chat_handler.dir/ConnectionPool.cpp.o"
 	cd /home/gsy/OnlineChatRoom/build/chat_handler && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT chat_handler/CMakeFiles/chat_handler.dir/ConnectionPool.cpp.o -MF CMakeFiles/chat_handler.dir/ConnectionPool.cpp.o.d -o CMakeFiles/chat_handler.dir/ConnectionPool.cpp.o -c /home/gsy/OnlineChatRoom/chat_handler/ConnectionPool.cpp
 
 chat_handler/CMakeFiles/chat_handler.dir/ConnectionPool.cpp.i: cmake_force
@@ -117,7 +131,7 @@ chat_handler/CMakeFiles/chat_handler.dir/ConnectionPool.cpp.s: cmake_force
 chat_handler/CMakeFiles/chat_handler.dir/Logger.cpp.o: chat_handler/CMakeFiles/chat_handler.dir/flags.make
 chat_handler/CMakeFiles/chat_handler.dir/Logger.cpp.o: /home/gsy/OnlineChatRoom/chat_handler/Logger.cpp
 chat_handler/CMakeFiles/chat_handler.dir/Logger.cpp.o: chat_handler/CMakeFiles/chat_handler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object chat_handler/CMakeFiles/chat_handler.dir/Logger.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object chat_handler/CMakeFiles/chat_handler.dir/Logger.cpp.o"
 	cd /home/gsy/OnlineChatRoom/build/chat_handler && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT chat_handler/CMakeFiles/chat_handler.dir/Logger.cpp.o -MF CMakeFiles/chat_handler.dir/Logger.cpp.o.d -o CMakeFiles/chat_handler.dir/Logger.cpp.o -c /home/gsy/OnlineChatRoom/chat_handler/Logger.cpp
 
 chat_handler/CMakeFiles/chat_handler.dir/Logger.cpp.i: cmake_force
@@ -131,7 +145,7 @@ chat_handler/CMakeFiles/chat_handler.dir/Logger.cpp.s: cmake_force
 chat_handler/CMakeFiles/chat_handler.dir/MysqlConnection.cpp.o: chat_handler/CMakeFiles/chat_handler.dir/flags.make
 chat_handler/CMakeFiles/chat_handler.dir/MysqlConnection.cpp.o: /home/gsy/OnlineChatRoom/chat_handler/MysqlConnection.cpp
 chat_handler/CMakeFiles/chat_handler.dir/MysqlConnection.cpp.o: chat_handler/CMakeFiles/chat_handler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object chat_handler/CMakeFiles/chat_handler.dir/MysqlConnection.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object chat_handler/CMakeFiles/chat_handler.dir/MysqlConnection.cpp.o"
 	cd /home/gsy/OnlineChatRoom/build/chat_handler && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT chat_handler/CMakeFiles/chat_handler.dir/MysqlConnection.cpp.o -MF CMakeFiles/chat_handler.dir/MysqlConnection.cpp.o.d -o CMakeFiles/chat_handler.dir/MysqlConnection.cpp.o -c /home/gsy/OnlineChatRoom/chat_handler/MysqlConnection.cpp
 
 chat_handler/CMakeFiles/chat_handler.dir/MysqlConnection.cpp.i: cmake_force
@@ -145,6 +159,7 @@ chat_handler/CMakeFiles/chat_handler.dir/MysqlConnection.cpp.s: cmake_force
 # Object files for target chat_handler
 chat_handler_OBJECTS = \
 "CMakeFiles/chat_handler.dir/ChatAccountHandler.cpp.o" \
+"CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.o" \
 "CMakeFiles/chat_handler.dir/ClientHandler.cpp.o" \
 "CMakeFiles/chat_handler.dir/ConnectionPool.cpp.o" \
 "CMakeFiles/chat_handler.dir/Logger.cpp.o" \
@@ -154,13 +169,14 @@ chat_handler_OBJECTS = \
 chat_handler_EXTERNAL_OBJECTS =
 
 lib/libchat_handler.so: chat_handler/CMakeFiles/chat_handler.dir/ChatAccountHandler.cpp.o
+lib/libchat_handler.so: chat_handler/CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.o
 lib/libchat_handler.so: chat_handler/CMakeFiles/chat_handler.dir/ClientHandler.cpp.o
 lib/libchat_handler.so: chat_handler/CMakeFiles/chat_handler.dir/ConnectionPool.cpp.o
 lib/libchat_handler.so: chat_handler/CMakeFiles/chat_handler.dir/Logger.cpp.o
 lib/libchat_handler.so: chat_handler/CMakeFiles/chat_handler.dir/MysqlConnection.cpp.o
 lib/libchat_handler.so: chat_handler/CMakeFiles/chat_handler.dir/build.make
 lib/libchat_handler.so: chat_handler/CMakeFiles/chat_handler.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX shared library ../lib/libchat_handler.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/gsy/OnlineChatRoom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX shared library ../lib/libchat_handler.so"
 	cd /home/gsy/OnlineChatRoom/build/chat_handler && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chat_handler.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

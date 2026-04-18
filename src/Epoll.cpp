@@ -10,9 +10,7 @@ Epoll::Epoll() : _epfd(-1), _events(nullptr)
     // 创建一个用于在内核存放数据的句柄
     _epfd = epoll_create1(0);
     if (_epfd == -1)
-        {
-            LOG_ERROR("Server epoll create error");
-        }
+        LOG_ERROR("Server epoll create error");
     else
         LOG_INFO("Server epoll create success");
     _events = new struct epoll_event[MAX_EVENTS];
@@ -45,14 +43,12 @@ std::vector<Channel *> Epoll::poll(int timeout)
     int nfds = epoll_wait(_epfd, _events, MAX_EVENTS, timeout);
     if (nfds == -1)
     {
-        std::string message = "Server epoll wait error, epoll fd is ";
-        message += std::to_string(_epfd);
+        std::string message = "Server epoll wait error, epoll fd is " + std::to_string(_epfd);
         LOG_ERROR(message.c_str());
     }
     else
     {
-        std::string message = "Server epoll wait success, epoll fd is ";
-        message += std::to_string(_epfd);
+        std::string message = "Server epoll wait success, epoll fd is " + std::to_string(_epfd);
         LOG_INFO(message.c_str());
     }
     for (int i = 0; i < nfds; ++i)
@@ -88,15 +84,31 @@ void Epoll::updateChannel(Channel *channel)
     }
     else
     {
-        errif(epoll_ctl(_epfd, EPOLL_CTL_MOD, fd, &ev) == -1,
-              "epoll modify error"); // 已存在，修改
+        if (epoll_ctl(_epfd, EPOLL_CTL_MOD, fd, &ev) == -1)
+        {
+            std::string message = "epoll modify error, fd is " + std::to_string(fd);
+            LOG_ERROR(message);
+        }
+        else
+        {
+            std::string message = "epoll modify success, fd is " + std::to_string(fd);
+            LOG_INFO(message);
+        }
     }
 }
 
 void Epoll::deleteChannel(Channel *channel)
 {
     int fd = channel->getFd();
-    errif(epoll_ctl(_epfd, EPOLL_CTL_DEL, fd, nullptr) == -1,
-          "epoll delete error");
+    if (epoll_ctl(_epfd, EPOLL_CTL_DEL, fd, nullptr) == -1)
+    {
+        std::string message = "epoll delete error, fd is " + std::to_string(fd);
+        LOG_ERROR(message);
+    }
+    else
+    {
+        std::string message = "epoll delete success, fd is " + std::to_string(fd);
+        LOG_INFO(message);
+    }
     channel->setInEpoll(false);
 }

@@ -13,7 +13,7 @@
 						2,
 						3
 					],
-					"jsonFile" : "directory-.-Debug-fd6451d79dc282e2f566.json",
+					"jsonFile" : "directory-.-fd6451d79dc282e2f566.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.10"
@@ -30,7 +30,7 @@
 				},
 				{
 					"build" : "chat_handler",
-					"jsonFile" : "directory-chat_handler-Debug-7ee5736c7ab7e03a721b.json",
+					"jsonFile" : "directory-chat_handler-7ee5736c7ab7e03a721b.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.10"
@@ -45,7 +45,7 @@
 				},
 				{
 					"build" : "src",
-					"jsonFile" : "directory-src-Debug-04ae5e23b13c6db1c31c.json",
+					"jsonFile" : "directory-src-04ae5e23b13c6db1c31c.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.10"
@@ -60,7 +60,7 @@
 				},
 				{
 					"build" : "test",
-					"jsonFile" : "directory-test-Debug-977fc775ae659bc3472b.json",
+					"jsonFile" : "directory-test-977fc775ae659bc3472b.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.10"
@@ -78,7 +78,7 @@
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "",
 			"projects" : 
 			[
 				{
@@ -111,77 +111,77 @@
 				{
 					"directoryIndex" : 3,
 					"id" : "build-tests::@36f028580bb02cc8272a",
-					"jsonFile" : "target-build-tests-Debug-3878d101c7bd369ab1d5.json",
+					"jsonFile" : "target-build-tests-3878d101c7bd369ab1d5.json",
 					"name" : "build-tests",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "chat_handler::@aff6ee506ce1bf8225a3",
-					"jsonFile" : "target-chat_handler-Debug-4027bb1b6feda744af96.json",
+					"jsonFile" : "target-chat_handler-cf5da0d660a2adef2ba9.json",
 					"name" : "chat_handler",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "check-format::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-check-format-Debug-99361ed52161923f147d.json",
+					"jsonFile" : "target-check-format-99361ed52161923f147d.json",
 					"name" : "check-format",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 3,
 					"id" : "check-tests::@36f028580bb02cc8272a",
-					"jsonFile" : "target-check-tests-Debug-f8a172aaa06a399fbcc5.json",
+					"jsonFile" : "target-check-tests-f8a172aaa06a399fbcc5.json",
 					"name" : "check-tests",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "clang-tidy::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-clang-tidy-Debug-f6605e4dca50042d4527.json",
+					"jsonFile" : "target-clang-tidy-f6605e4dca50042d4527.json",
 					"name" : "clang-tidy",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "cpplint::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-cpplint-Debug-7540ac52dc0d8635474d.json",
+					"jsonFile" : "target-cpplint-7540ac52dc0d8635474d.json",
 					"name" : "cpplint",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "format::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-format-Debug-2fe42478557e1d9f85df.json",
+					"jsonFile" : "target-format-2fe42478557e1d9f85df.json",
 					"name" : "format",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 3,
 					"id" : "multiple_client::@36f028580bb02cc8272a",
-					"jsonFile" : "target-multiple_client-Debug-f1592862d33c0af4e52a.json",
+					"jsonFile" : "target-multiple_client-48803c9233495ad11170.json",
 					"name" : "multiple_client",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 2,
 					"id" : "pine_shared::@145eef247bfb46b6828c",
-					"jsonFile" : "target-pine_shared-Debug-997947526fc551240770.json",
+					"jsonFile" : "target-pine_shared-9d160bcc76f3014cd033.json",
 					"name" : "pine_shared",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 3,
 					"id" : "server::@36f028580bb02cc8272a",
-					"jsonFile" : "target-server-Debug-97c89b9e60496544bd0e.json",
+					"jsonFile" : "target-server-bff12c17b23a8e90aa97.json",
 					"name" : "server",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 3,
 					"id" : "single_client::@36f028580bb02cc8272a",
-					"jsonFile" : "target-single_client-Debug-00a3adb0df0b31b2be1e.json",
+					"jsonFile" : "target-single_client-c8b4df00f0cc2a4ac369.json",
 					"name" : "single_client",
 					"projectIndex" : 0
 				}

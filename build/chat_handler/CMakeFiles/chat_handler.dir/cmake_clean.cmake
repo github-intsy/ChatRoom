@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "../lib/libchat_handler.so"
   "CMakeFiles/chat_handler.dir/ChatAccountHandler.cpp.o"
   "CMakeFiles/chat_handler.dir/ChatAccountHandler.cpp.o.d"
+  "CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.o"
+  "CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.o.d"
   "CMakeFiles/chat_handler.dir/ClientHandler.cpp.o"
   "CMakeFiles/chat_handler.dir/ClientHandler.cpp.o.d"
   "CMakeFiles/chat_handler.dir/ConnectionPool.cpp.o"

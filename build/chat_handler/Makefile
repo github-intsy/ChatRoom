@@ -154,6 +154,30 @@ ChatAccountHandler.cpp.s:
 	cd /home/gsy/OnlineChatRoom/build && $(MAKE) $(MAKESILENT) -f chat_handler/CMakeFiles/chat_handler.dir/build.make chat_handler/CMakeFiles/chat_handler.dir/ChatAccountHandler.cpp.s
 .PHONY : ChatAccountHandler.cpp.s
 
+ChatMessageHandler.o: ChatMessageHandler.cpp.o
+.PHONY : ChatMessageHandler.o
+
+# target to build an object file
+ChatMessageHandler.cpp.o:
+	cd /home/gsy/OnlineChatRoom/build && $(MAKE) $(MAKESILENT) -f chat_handler/CMakeFiles/chat_handler.dir/build.make chat_handler/CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.o
+.PHONY : ChatMessageHandler.cpp.o
+
+ChatMessageHandler.i: ChatMessageHandler.cpp.i
+.PHONY : ChatMessageHandler.i
+
+# target to preprocess a source file
+ChatMessageHandler.cpp.i:
+	cd /home/gsy/OnlineChatRoom/build && $(MAKE) $(MAKESILENT) -f chat_handler/CMakeFiles/chat_handler.dir/build.make chat_handler/CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.i
+.PHONY : ChatMessageHandler.cpp.i
+
+ChatMessageHandler.s: ChatMessageHandler.cpp.s
+.PHONY : ChatMessageHandler.s
+
+# target to generate assembly for a file
+ChatMessageHandler.cpp.s:
+	cd /home/gsy/OnlineChatRoom/build && $(MAKE) $(MAKESILENT) -f chat_handler/CMakeFiles/chat_handler.dir/build.make chat_handler/CMakeFiles/chat_handler.dir/ChatMessageHandler.cpp.s
+.PHONY : ChatMessageHandler.cpp.s
+
 ClientHandler.o: ClientHandler.cpp.o
 .PHONY : ClientHandler.o
 
@@ -262,6 +286,9 @@ help:
 	@echo "... ChatAccountHandler.o"
 	@echo "... ChatAccountHandler.i"
 	@echo "... ChatAccountHandler.s"
+	@echo "... ChatMessageHandler.o"
+	@echo "... ChatMessageHandler.i"
+	@echo "... ChatMessageHandler.s"
 	@echo "... ClientHandler.o"
 	@echo "... ClientHandler.i"
 	@echo "... ClientHandler.s"
