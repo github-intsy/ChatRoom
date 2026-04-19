@@ -152,12 +152,16 @@ std::string MessageHandler::handleSendPrivateMessage(nlohmann::json j,
     mysql_free_result(res);
 
     long long msgId = 0;
-    snprintf(sql, sizeof(sql),
-             "INSERT INTO sys_message(sender_id, receiver_id, group_id, chat_type, msg_type, content, filename, send_time, msg_status) "
-             "VALUES(%d, %d, NULL, 'friend', %d, '%s', '%s', NOW(), 0)",
-             senderId, receiverId, msgType, escContent.c_str(), escFilename.c_str());
+    std::string insertSql =
+        "INSERT INTO sys_message(sender_id, receiver_id, group_id, chat_type, msg_type, content, filename, send_time, msg_status) "
+        "VALUES(" +
+        std::to_string(senderId) + ", " +
+        std::to_string(receiverId) + ", NULL, 'friend', " +
+        std::to_string(msgType) + ", '" +
+        escContent + "', '" +
+        escFilename + "', NOW(), 0)";
 
-    if (!conn->update(sql, msgId))
+    if (!conn->update(insertSql, msgId))
         return retMessage(cmd_type::CMD_SEND_PRIVATE_MSG_RES,
                           cmd_type::STATUS_FAILED,
                           "消息入库失败");
@@ -198,11 +202,16 @@ std::string MessageHandler::handleSendPrivateMessage(nlohmann::json j,
     }
     else
     {
-        snprintf(sql, sizeof(sql),
-                 "INSERT INTO sys_offline_message(sender_id, receiver_id, content, send_time, read_flag, msg_type, filename) "
-                 "VALUES(%d, %d, '%s', NOW(), 0, %d, '%s')",
-                 senderId, receiverId, escContent.c_str(), msgType, escFilename.c_str());
-        conn->update(sql, msgId);
+        std::string offlineSql =
+            "INSERT INTO sys_offline_message(sender_id, receiver_id, content, send_time, read_flag, msg_type, filename) "
+            "VALUES(" +
+            std::to_string(senderId) + ", " +
+            std::to_string(receiverId) + ", '" +
+            escContent + "', NOW(), 0, " +
+            std::to_string(msgType) + ", '" +
+            escFilename + "')";
+
+        conn->update(offlineSql, msgId);
     }
 
     return retMessageWithData(cmd_type::CMD_SEND_PRIVATE_MSG_RES,
@@ -343,12 +352,16 @@ std::string MessageHandler::handleSendGroupMessage(nlohmann::json j,
                           "你已被禁言");
 
     long long msgId = 0;
-    snprintf(sql, sizeof(sql),
-             "INSERT INTO sys_message(sender_id, receiver_id, group_id, chat_type, msg_type, content, filename, send_time, msg_status) "
-             "VALUES(%d, NULL, %d, 'group', %d, '%s', '%s', NOW(), 0)",
-             senderId, groupId, msgType, escContent.c_str(), escFilename.c_str());
+    std::string insertSql =
+        "INSERT INTO sys_message(sender_id, receiver_id, group_id, chat_type, msg_type, content, filename, send_time, msg_status) "
+        "VALUES(" +
+        std::to_string(senderId) + ", NULL, " +
+        std::to_string(groupId) + ", 'group', " +
+        std::to_string(msgType) + ", '" +
+        escContent + "', '" +
+        escFilename + "', NOW(), 0)";
 
-    if (!conn->update(sql, msgId))
+    if (!conn->update(insertSql, msgId))
         return retMessage(cmd_type::CMD_SEND_GROUP_MSG_RES,
                           cmd_type::STATUS_FAILED,
                           "群消息入库失败");

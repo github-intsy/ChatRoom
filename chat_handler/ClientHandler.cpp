@@ -37,6 +37,8 @@ std::string ClientHandler::handleRequest(const std::string &request,
             int loginUserId = 0;
             return _accountHandler->handleLogin(params, userConnections, connection, loginUserId);
         }
+        case static_cast<int>(cmd_type::CMD_RESET_PW_REQ):
+            return _accountHandler->handleResetPassword(params);
         case static_cast<int>(cmd_type::CMD_REGISTER_REQ):
             return _accountHandler->handleRegister(params);
 
@@ -63,7 +65,26 @@ std::string ClientHandler::handleRequest(const std::string &request,
 
         case static_cast<int>(cmd_type::CMD_GET_GROUP_HISTORY_REQ):
             return _messageHandler->handleGetGroupHistory(params, userId);
-        
+
+        case static_cast<int>(cmd_type::CMD_SEARCH_USER_REQ):
+            return _accountHandler->handleSearchUser(params, userId);
+
+        case static_cast<int>(cmd_type::CMD_ADD_FRIEND_REQ):
+            return _accountHandler->handleAddFriend(params, userId);
+
+        case static_cast<int>(cmd_type::CMD_GET_FRIEND_REQUEST_LIST_REQ):
+            return _accountHandler->handleGetFriendRequestList(userId);
+
+        case static_cast<int>(cmd_type::CMD_HANDLE_FRIEND_REQUEST_REQ):
+            return _accountHandler->handleFriendRequest(params, userId);
+
+        case static_cast<int>(cmd_type::CMD_INVITE_GROUP_MEMBER_REQ):
+            return _accountHandler->handleInviteGroupMember(params, userId);
+
+        case static_cast<int>(cmd_type::CMD_GET_GROUP_MEMBERS_REQ):
+            return _accountHandler->handleGetGroupMembers(params, userId);
+        case static_cast<int>(cmd_type::CMD_DELETE_FRIEND_REQ):
+            return _accountHandler->handleDeleteFriend(params, userId);
         default:
         {
             nlohmann::json res;
