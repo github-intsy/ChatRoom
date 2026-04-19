@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/gsy/OnlineChatRoom/src/include -I/home/gsy/OnlineChatRoom/test/include -I/home/gsy/OnlineChatRoom/chat_handler/include -I/home/gsy/OnlineChatRoom/3rd/json
 
-CXX_FLAGS =  -fPIC -Wall -Wextra -std=c++17 -pthread -Wno-unused-parameter -Wno-attributes -std=gnu++17
+CXX_FLAGS =  -fPIC -Wall -Wextra -std=c++17 -pthread -Wno-unused-parameter -Wno-attributes -g -O0 -ggdb -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls -std=gnu++17
 

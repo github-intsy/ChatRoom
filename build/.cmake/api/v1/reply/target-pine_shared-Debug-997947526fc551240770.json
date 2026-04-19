@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "lib/libchat_handler.so"
+			"path" : "lib/libpine_shared.so"
 		}
 	],
 	"backtrace" : 1,
@@ -12,12 +12,11 @@
 		[
 			"add_library",
 			"target_link_libraries",
-			"include_directories",
-			"target_include_directories"
+			"include_directories"
 		],
 		"files" : 
 		[
-			"chat_handler/CMakeLists.txt",
+			"src/CMakeLists.txt",
 			"CMakeLists.txt"
 		],
 		"nodes" : 
@@ -34,7 +33,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 13,
+				"line" : 5,
 				"parent" : 0
 			},
 			{
@@ -45,18 +44,6 @@
 				"file" : 1,
 				"line" : 99,
 				"parent" : 3
-			},
-			{
-				"command" : 3,
-				"file" : 0,
-				"line" : 4,
-				"parent" : 0
-			},
-			{
-				"command" : 3,
-				"file" : 0,
-				"line" : 12,
-				"parent" : 0
 			}
 		]
 	},
@@ -65,19 +52,26 @@
 		"major" : 2,
 		"minor" : 10
 	},
+	"compileDependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "chat_handler::@aff6ee506ce1bf8225a3"
+		}
+	],
 	"compileGroups" : 
 	[
 		{
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : " -fPIC -Wall -Wextra -std=c++17 -pthread -Wno-unused-parameter -Wno-attributes -std=gnu++17 -fPIC"
+					"fragment" : " -fPIC -Wall -Wextra -std=c++17 -pthread -Wno-unused-parameter -Wno-attributes -g -O0 -ggdb -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls -std=gnu++17 -fPIC"
 				}
 			],
 			"defines" : 
 			[
 				{
-					"define" : "chat_handler_EXPORTS"
+					"define" : "pine_shared_EXPORTS"
 				}
 			],
 			"includes" : 
@@ -91,16 +85,12 @@
 					"path" : "/home/gsy/OnlineChatRoom/test/include"
 				},
 				{
-					"backtrace" : 5,
+					"backtrace" : 2,
 					"path" : "/home/gsy/OnlineChatRoom/chat_handler/include"
 				},
 				{
-					"backtrace" : 5,
+					"backtrace" : 2,
 					"path" : "/home/gsy/OnlineChatRoom/3rd/json"
-				},
-				{
-					"backtrace" : 6,
-					"path" : "/usr/include/mysql"
 				}
 			],
 			"language" : "CXX",
@@ -119,11 +109,37 @@
 				2,
 				3,
 				4,
-				5
+				5,
+				6,
+				7,
+				8,
+				9,
+				10
 			]
 		}
 	],
-	"id" : "chat_handler::@aff6ee506ce1bf8225a3",
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "chat_handler::@aff6ee506ce1bf8225a3"
+		}
+	],
+	"id" : "pine_shared::@145eef247bfb46b6828c",
+	"interfaceCompileDependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "chat_handler::@aff6ee506ce1bf8225a3"
+		}
+	],
+	"interfaceLinkLibraries" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "chat_handler::@aff6ee506ce1bf8225a3"
+		}
+	],
 	"link" : 
 	{
 		"commandFragments" : 
@@ -137,13 +153,12 @@
 				"role" : "flags"
 			},
 			{
-				"backtrace" : 2,
-				"fragment" : "-lmysqlclient",
+				"fragment" : "-Wl,-rpath,/home/gsy/OnlineChatRoom/build/lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-lpthread",
+				"fragment" : "../lib/libchat_handler.so",
 				"role" : "libraries"
 			}
 		],
@@ -153,19 +168,15 @@
 	[
 		{
 			"backtrace" : 2,
-			"fragment" : "mysqlclient"
-		},
-		{
-			"backtrace" : 2,
-			"fragment" : "pthread"
+			"id" : "chat_handler::@aff6ee506ce1bf8225a3"
 		}
 	],
-	"name" : "chat_handler",
-	"nameOnDisk" : "libchat_handler.so",
+	"name" : "pine_shared",
+	"nameOnDisk" : "libpine_shared.so",
 	"paths" : 
 	{
-		"build" : "chat_handler",
-		"source" : "chat_handler"
+		"build" : "src",
+		"source" : "src"
 	},
 	"sourceGroups" : 
 	[
@@ -178,7 +189,12 @@
 				2,
 				3,
 				4,
-				5
+				5,
+				6,
+				7,
+				8,
+				9,
+				10
 			]
 		}
 	],
@@ -187,37 +203,67 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "chat_handler/ChatAccountHandler.cpp",
+			"path" : "src/Acceptor.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "chat_handler/ChatMessageHandler.cpp",
+			"path" : "src/Buffer.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "chat_handler/ClientHandler.cpp",
+			"path" : "src/Channel.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "chat_handler/ConnectionPool.cpp",
+			"path" : "src/Connection.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "chat_handler/Logger.cpp",
+			"path" : "src/Epoll.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "chat_handler/MysqlConnection.cpp",
+			"path" : "src/EventLoop.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/InetAddress.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/Server.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/Socket.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/ThreadPool.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/util.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],
